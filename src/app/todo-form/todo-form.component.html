@@ -1,0 +1,78 @@
+<h1 class="ui dividing header">Todo Formular</h1>
+<form class="ui large form" [formGroup]="todoForm" (ngSubmit)="submitForm()">
+  <input type="hidden" formControlName="id">
+  <div class="two fields">
+    <div class="field">
+      <label>Titel</label>
+      <input formControlName="title">
+      @if(errors['title']){
+        <div class="ui negative message">{{errors['title']}}</div>
+      }
+    </div>
+    <div class="field">
+      <label>Beschreibung</label>
+      <textarea formControlName="description" rows="2"></textarea>
+      @if(errors['description']){
+        <div class="ui negative message">{{errors['description']}}</div>
+      }
+    </div>
+  </div>
+  <div class="three fields">
+    <div class="field">
+      <label>Zu erledigen bis:</label>
+      <input type="date" formControlName="due">
+      @if(errors['due_at']){
+        <div class="ui negative message">{{
+            errors['due_at']
+          }}</div>
+      }
+    </div>
+    <div class="field">
+      <label>Notiz auswählen (optional)</label>
+      <select class="ui fluid dropdown" id="notes" formControlName="note_id">
+        @for(note of notes; track note){
+          <option [value]="note.id">
+            <span>{{note?.title}}</span>
+          </option>
+        }
+      </select>
+    </div>
+    <div class="field">
+      <label for="tags">Wähle einen oder mehr Tags:</label>
+      <select multiple id="tags" formControlName="tags">
+        @for (tag of tags; track tag){
+          <option [value]="tag.id">
+            {{tag?.title}}
+          </option>
+        }
+      </select>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Bilder einfügen (optional):</label>
+    <div formArrayName="images">
+      @for (control of images.controls; let i = $index, l = $last; track control){
+        <div class="fields" [formGroupName]="i">
+          <input type="hidden" formControlName="id">
+          <div class="nine wide field">
+            <input formControlName="url" placeholder="http://bild{{i+1}}_url">
+          </div>
+          <div class="six wide field">
+            <input formControlName="title" placeholder="Bild{{i+1}}_Titel">
+          </div>
+          @if(l){
+            <div class="one wide field">
+              <button (click)="addThumbnailControl()" class="ui large button" type="button">+</button>
+            </div>
+          }
+        </div>
+      }
+    </div>
+    @if (errors['images']){
+      <div class="ui negative message">{{ errors['images'] }}</div>
+    }
+  </div>
+  <button type="submit" class="ui button" [disabled]="todoForm.invalid">Speichern</button>
+
+</form>

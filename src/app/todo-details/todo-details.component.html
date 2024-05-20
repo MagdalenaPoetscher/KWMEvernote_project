@@ -1,0 +1,49 @@
+@if(todo){
+  <div class="ui grid">
+    <div class="four wide column">
+      @if(todo.images && todo.images[0]){
+        <img class="ui small image" [src]="todo.images[0].url">
+      }
+    </div>
+    <div class="twelve wide column">
+      <h2 class="ui header">{{todo.title}}</h2>
+      <p>{{todo.description}}</p>
+      <div class="ui divider"></div>
+      <div class="ui grid">
+        <div class="four wide column">
+          <h4 class="ui header">Zu erledigen bis:</h4>
+          <span>{{todo.due}}</span>
+        </div>
+        <div class="four wide column">
+          @if(todo.tags && todo.tags.length > 0){
+            @for (tag of todo.tags; track tag){
+              <button class="ui tag teal label">
+                <span>{{tag?.title}}</span>
+                <span><br></span>
+              </button>
+            }
+          }
+          @for (tag of tags; track tag){
+            <a class="item app-tag-list-item" [tag]="tag" [routerLink]="tag.id.toString()"></a>
+          }
+        </div>
+
+    </div>
+    </div>
+  </div>
+  <br>
+  <div class="ui tiny images">
+    @for (thumbnail of todo.images; track thumbnail) {
+      <img [src]="thumbnail.url">
+    }
+  </div>
+}
+
+<br><br>
+<button [routerLink]="'/todo'" class="ui button">Zurück zur Todo Übersicht</button>
+@if(authService.isLoggedIn()){
+<button class="ui secondary button" (click)="removeTodo()">
+  <i class="remove icon"></i>Todo löschen</button>
+<a class="ui primary basic button icon button"
+   [routerLink]="['/editTodos', todo.id]"><i class="write icon"></i>Todo bearbeiten</a>
+}

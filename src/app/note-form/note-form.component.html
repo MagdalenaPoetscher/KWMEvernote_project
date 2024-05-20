@@ -1,0 +1,90 @@
+<h1 class="ui dividing header">Notizformular</h1>
+<form class="ui large form" [formGroup]="noteForm" (ngSubmit)="submitForm()">
+  <input type="hidden" formControlName="id">
+  <div class="two fields">
+    <div class="field">
+      <label>Titel</label>
+      <input formControlName="title">
+      @if(errors['title']){
+        <div class="ui negative message">{{errors['title']}}</div>
+      }
+    </div>
+    <div class="field">
+      <label>Beschreibung</label>
+      <textarea formControlName="description" rows="1"></textarea>
+      @if(errors['description']){
+        <div class="ui negative message">{{errors['description']}}</div>
+      }
+    </div>
+  </div>
+
+  <div class="two fields">
+    <div class="field">
+      <label>Liste auswählen</label>
+      <select class="ui fluid dropdown" id="catalogues" formControlName="catalogue_id">
+        @for(catalogue of catalogues; track catalogue){
+          <option [value]="catalogue.id">
+            <span>{{catalogue?.name}}</span>
+          </option>
+        }
+      </select>
+    </div>
+    <div class="field">
+      <label for="tags">Wähle einen oder mehr Tags:</label>
+      <select multiple id="tags" formControlName="tags">
+        @for (tag of tags; track tag){
+          <option [value]="tag.id">
+            {{tag?.title}}
+          </option>
+        }
+      </select>
+    </div>
+  </div>
+
+  <div class="two fields">
+    <div class="field">
+      <label>Erstellungsdatum</label>
+      <input type="date" formControlName="created_at">
+      @if(errors['created_at']){
+        <div class="ui negative message">{{
+            errors['created_at']
+          }}</div>
+      }
+    </div>
+    <div class="field">
+      <label>Änderungsdatum</label>
+      <input type="date" formControlName="updated_at">
+      @if(errors['updated_at']){
+        <div class="ui negative message">{{
+            errors['updated_at']
+          }}</div>
+      }
+    </div>
+  </div>
+  <div class="field">
+    <label>Bilder einfügen</label>
+    <div formArrayName="images">
+      @for (control of images.controls; let i = $index, l = $last; track control){
+        <div class="fields" [formGroupName]="i">
+          <input type="hidden" formControlName="id">
+          <div class="nine wide field">
+            <input formControlName="url" placeholder="http://bild{{i+1}}_url">
+          </div>
+          <div class="six wide field">
+            <input formControlName="title" placeholder="Bild{{i+1}}_Titel">
+          </div>
+          @if(l){
+            <div class="one wide field">
+              <button (click)="addThumbnailControl()" class="ui large button" type="button">+</button>
+            </div>
+          }
+        </div>
+      }
+    </div>
+    @if (errors['images']){
+      <div class="ui negative message">{{ errors['images'] }}</div>
+    }
+  </div>
+
+  <button type="submit" class="ui button" [disabled]="noteForm.invalid">Speichern</button>
+</form>

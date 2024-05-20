@@ -1,0 +1,14 @@
+<h4>Aktuelle Todo's</h4>
+<div class="ui middle aligned selection divided list">
+  @for (todo of todos; track todo){
+    <a class="item app-todo-list-item" [todo]="todo" [routerLink]="todo.id.toString()"></a>
+  }
+</div>
+@if(authService.isLoggedIn()){
+
+<a class="ui primary basic button icon button"
+   [routerLink]="['/editTodos']"><i class="write icon"></i>Neuen Todo Eintrag erstellen</a>
+
+}
+
+

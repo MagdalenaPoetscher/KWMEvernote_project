@@ -1,0 +1,11 @@
+<h4>Notizen</h4>
+<div class="ui middle aligned selection divided list">
+  @for (note of notes; track note){
+    <a class="item app-note-list-item" [note]="note" [routerLink]="note.id.toString()"></a>
+  }
+</div>
+@if(authService.isLoggedIn()){
+  <a class="ui primary basic button icon button"
+     [routerLink]="['/editNotes']"><i class="write icon"></i>Neue Notiz erstellen</a>
+
+}

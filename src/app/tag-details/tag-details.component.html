@@ -1,0 +1,12 @@
+<h3>Tagtitel: {{tag.title}}</h3>
+<p>Erstellt von User {{tag.user_id}}</p>
+<br>
+<button [routerLink]="'/tag'" class="ui button">Zurück zur Tag Übersicht</button>
+  @if(authService.isLoggedIn()){
+    <button class="ui secondary button" (click)="removeTag()"><i class="remove icon"></i>Tag löschen</button>
+    <a class="ui primary basic button icon button"
+       [routerLink]="['/editTags', tag.id]"><i class="write icon"></i>  Tag bearbeiten</a>
+  }
+
+
+

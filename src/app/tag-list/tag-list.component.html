@@ -1,0 +1,12 @@
+<h4>Tags</h4>
+<div class="ui middle aligned selection divided list">
+  @for (tag of tags; track tag){
+    <a class="item app-tag-list-item" [tag]="tag" [routerLink]="tag.id.toString()"></a>
+  }
+</div>
+
+@if(authService.isLoggedIn()){
+
+<a class="ui primary basic button icon button"
+   [routerLink]="['/editTags']"><i class="write icon"></i>Neuen Tag erstellen</a>
+}

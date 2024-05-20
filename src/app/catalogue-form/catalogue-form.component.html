@@ -1,0 +1,19 @@
+<h1 class="ui dividing header">Listenformuler</h1>
+<form class="ui large form" [formGroup]="catalogueForm" (ngSubmit)="submitForm()">
+  <input type="hidden" formControlName="id">
+  <div class="field">
+    <label>Name der Liste</label>
+    <input formControlName="name">
+    @if(errors['name']){
+      <div class="ui negative message">{{errors['name']}}</div>
+    }
+  </div>
+  <button type="submit" class="ui button" [disabled]="catalogueForm.invalid">Speichern</button>
+</form>
+
+
+
+
+
+
+

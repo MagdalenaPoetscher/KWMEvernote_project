@@ -1,0 +1,28 @@
+<h3>{{catalogue.name}}</h3>
+<div class="ui divider"></div>
+@if (catalogue.notes?.length === 0) {
+  <div class="ui compact message">
+    <p>In dieser Liste sind noch keine Notizen enthalten!</p>
+  </div>
+}
+<div class="metadata">
+  <div class="ui divided items">
+  @for (note of catalogue.notes; track note; let l =$last) {
+    <a class="item app-note-list-item" [note]="note" [routerLink]="['/notes', note.id.toString()]"></a>
+    <!--<h4>Notiz</h4>
+    <div class="middle aligned content"><p class="header">{{ note.title }}</p></div>
+    <div class="description">
+    <p>{{ note.description }}@if(!l){<br> }</p>
+    </div>
+    <div class="ui divider"></div>-->
+  }
+  </div>
+</div>
+<button [routerLink]="'/catalogues'" class="ui button">Zurück zur Übersicht</button>
+@if(authService.isLoggedIn()){
+  <button class="ui secondary button" (click)="removeCatalogue()">
+    <i class="remove icon"></i>Liste löschen</button>
+  <a class="ui primary basic button icon button"
+     [routerLink]="['../../editList', catalogue.id]"><i class="write icon"></i>Liste bearbeiten</a>
+}
+

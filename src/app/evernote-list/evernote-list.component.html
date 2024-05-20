@@ -1,0 +1,12 @@
+<h4>Listen</h4>
+<div class="ui middle aligned selection divided list">
+  @for (catalogue of catalogues; track catalogue){
+      <a class="item app-evernote-list-item" [catalogue]="catalogue" [routerLink]="catalogue.id.toString()"></a>
+  }
+</div>
+@if(authService.isLoggedIn()){
+  <a class="ui primary basic button icon button"
+     [routerLink]="['/editList']"><i class="write icon"></i>Neue Liste erstellen</a>
+}
+
+

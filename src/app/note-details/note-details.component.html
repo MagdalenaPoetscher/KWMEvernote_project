@@ -1,0 +1,67 @@
+@if(note){
+  <div class="ui grid">
+    <div class="four wide column">
+      @if(note.images && note.images[0]){
+        <img class="ui large image" [src]="note.images[0].url">
+      }
+    </div>
+    <div class="twelve wide column">
+      <h2 class="ui header">{{note.title}}</h2>
+      <p>{{note.description}}</p>
+      <div class="ui divider"></div>
+      <div class="ui grid">
+        <div class="four wide column">
+          <h4 class="ui header">Erstellt am:</h4>
+          <span>{{note.created_at | date:'short'}}</span>
+        </div>
+        <div class="four wide column">
+          <h4 class="ui header">Erstellt von:</h4>
+          <p>{{note.user_id}}</p>
+        </div>
+        <div class="four wide column">
+          @if(note.tags && note.tags.length > 0){
+            <h4 class="ui header">Zugehörige Tags: </h4>
+            @for (tag of note.tags; track tag){
+              <button class="ui tag teal label">
+                <span>{{tag?.title}}  </span>
+              </button>
+            }
+          }
+          @for (tag of tags; track tag){
+            <a class="item app-tag-list-item" [tag]="tag" [routerLink]="tag.id.toString()"></a>
+          }
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="ui tiny images">
+    @for (thumbnail of note.images; track thumbnail) {
+      <img [src]="thumbnail.url">
+    }
+  </div>
+}
+
+<br>
+<h4>Zugehörige Todos:</h4>
+@if (note.todos?.length === 0) {
+  <div class="ui compact message">
+    <p>In dieser Notiz sind noch keine Todos enthalten!</p>
+  </div>
+}
+  <div class="ui middle aligned selection divided list">
+    @for (todo of todos; track todo){
+      <a class="item app-todo-list-item" [todo]="todo" [routerLink]="['/todo', todo.id.toString()]"></a>
+    }
+  </div>
+
+
+<br><br>
+<button [routerLink]="'/notes'" class="ui button">Zurück zur Notizübersicht</button>
+@if(authService.isLoggedIn()){
+  <button class="ui secondary button" (click)="removeNote()"><i class="remove icon"></i>Notiz löschen</button>
+  <a class="ui primary basic button icon button"
+     [routerLink]="['/editNotes', note.id]"><i class="write icon"></i>Notiz bearbeiten</a>
+
+}
